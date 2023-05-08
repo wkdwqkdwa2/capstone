@@ -2,22 +2,14 @@ import * as React from 'react';
 import { 
     Avatar, 
     Box, 
-    Button, 
-    Checkbox,
-    Container,
-    FormControlLabel,
+    Button,     
+    Container,    
     Grid,
     Link,
     TextField,
     Typography
  } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
-import SignUp from './SignUp'
 
 import Axios from 'axios';
 import { useCookies } from 'react-cookie'
@@ -26,29 +18,11 @@ import { useNavigate } from 'react-router-dom'
 function Login(){ // 로그인 기본예제 틀
 
     const URL = 'http://127.0.0.1:8000/login'
-
-    const [open, setOpen] = React.useState(false);
-    const [title, settitle] = React.useState("");
+   
     const [cookies, setCookie] = useCookies(['id'])
+    
     const navigate = useNavigate();
-    const handleClickOpen = (e) => {
         
-        const currentname = e.target.name;
-
-        if(currentname === "register"){
-            settitle("회원가입")
-        } 
-        else if(currentname === "forgot"){
-            settitle("비밀번호찾기")
-        }
-
-
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
     const handleSubmit = (e) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget);
@@ -106,47 +80,20 @@ function Login(){ // 로그인 기본예제 틀
             id="password"
             autoComplete="current-password"
          />
-        
-        <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-        />
-        
+                
         <Button type="submit" fullWidth variant="contained" sx={ {mt:3, mb:2} }>
-            로그인</Button>
-
+            로그인
+        </Button>
+        </Box>
         <Grid container>
             <Grid item xs>
-                <Link name="forgot"onClick={handleClickOpen}>Forgot_password?</Link>
+                <Link name="forgot">Forgot_password?</Link>
             </Grid>
             <Grid item>
-                <Link name="register"onClick={handleClickOpen}>Sign_Up</Link>
+                <Link name="register">Sign_Up</Link>
             </Grid>
         </Grid>
-        </Box>
-
-        <div>
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">
-            
-            </DialogTitle>
-            <DialogContent>
-                <SignUp name={title}/> 
-            </DialogContent>
-            <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleClose} autoFocus>
-                Agree
-            </Button>
-            </DialogActions>
-        </Dialog>
-        </div>
-
+       
         </Container>
         
 
