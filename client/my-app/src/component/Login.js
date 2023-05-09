@@ -2,27 +2,28 @@ import * as React from 'react';
 import { 
     Avatar, 
     Box, 
-    Button,     
-    Container,    
+    Button, 
+    Checkbox,
+    Container,
+    FormControlLabel,
     Grid,
     Link,
     TextField,
     Typography
  } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
-import Axios from 'axios';
-import { useCookies } from 'react-cookie'
-import { useNavigate } from 'react-router-dom'
+import SignUp from './SignUp'
 
 function Login(){ // 로그인 기본예제 틀
 
-    const URL = 'http://127.0.0.1:8000/login'
-   
-    const [cookies, setCookie] = useCookies(['id'])
+    const [open, setOpen] = React.useState(false);
+    const [title, settitle] = React.useState("");
     
-    const navigate = useNavigate();
-        
     const handleSubmit = (e) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget);
@@ -38,9 +39,12 @@ function Login(){ // 로그인 기본예제 틀
     }
 
 
+
+
    return  (
     
     <Container component="main" maxWidth="xs" >
+
         <Box
           sx={{
             marginTop: 15,
@@ -48,52 +52,74 @@ function Login(){ // 로그인 기본예제 틀
             flexDirection: 'column',
             alignItems: 'center',
           }}
-        component="form" 
-        onSubmit={handleSubmit}
-        >
+        >       
+            <Avatar sx={{ m:1, bgcolor:'secondary.main'}}>
+                <LockOutlinedIcon /> 
+            </Avatar>
         
-        <Avatar sx={{ m:1, bgcolor:'secondary.main'}}>
-            <LockOutlinedIcon /> 
-        </Avatar>
-        
-        <Typography component="h1" variant="h5">
-            Sign in
-        </Typography>
+            <Typography component="h1" variant="h5">
+                Sign in
+            </Typography>
 
-        <TextField  
-            margin="normal"
-            label="Email Address" 
-            required
-            fullWidth 
-            name="email"
-            autoComplete="email"
-            autoFocus
-        />
+            <TextField  
+                margin="normal"
+                label="Email Address" 
+                required
+                fullWidth 
+                name="email"
+                autoComplete="email"
+                autoFocus
+            />
         
-        <TextField  
-            label="Password" 
-            type="Password"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            id="password"
-            autoComplete="current-password"
-         />
-                
-        <Button type="submit" fullWidth variant="contained" sx={ {mt:3, mb:2} }>
-            로그인
-        </Button>
+            <TextField  
+                label="Password" 
+                type="Password"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                id="password"
+                autoComplete="current-password"
+            />
+        
+               
+            <Button type="submit" fullWidth variant="contained" sx={ {mt:3, mb:2} }>
+                로그인
+            </Button>
         </Box>
+
         <Grid container>
             <Grid item xs>
-                <Link name="forgot">Forgot_password?</Link>
+                <Link name="forgot"onClick={handleClickOpen}>Forgot_password?</Link>
             </Grid>
             <Grid item>
-                <Link name="register">Sign_Up</Link>
+                <Link name="register"onClick={handleClickOpen}>Sign_Up</Link>
             </Grid>
         </Grid>
-       
+        
+
+        <div>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+            
+            </DialogTitle>
+            <DialogContent>
+                <SignUp name={title}/> 
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={handleClose}>Disagree</Button>
+            <Button onClick={handleClose} autoFocus>
+                Agree
+            </Button>
+            </DialogActions>
+        </Dialog>
+        </div>
+
         </Container>
         
 
@@ -102,6 +128,3 @@ function Login(){ // 로그인 기본예제 틀
     );
 }
 export default Login;
-
-
-
