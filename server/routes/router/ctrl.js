@@ -8,6 +8,7 @@ const UserInspection = async (req, res) => {
 
     connection.query(seq,email,function (error, results) {
       console.log(results[0].men_id)
+      
   });
   
 
