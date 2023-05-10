@@ -1,14 +1,13 @@
 const connection=require('../../dbconfig/database')
 
-console.log("HI")
 const UserInspection = async (req, res) => {
     const email=req.query.email;
     const password=req.query.password;
     
-    seq='SELECT men_id,mem_pwd from MEMBER'
-    connection.query(seq,[email,password], function (error, results) {
-      console.log(email)
-      console.log(results)
+    seq='SELECT men_id,mem_pwd from MEMBER WHERE men_id=?'
+
+    connection.query(seq,email,function (error, results) {
+      console.log(results[0].men_id)
   });
   
 
