@@ -1,18 +1,32 @@
-const connection=require('../../dbconfig/database')
+const conn = require('../../dbconfig/database')
 
 const UserInspection = async (req, res) => {
-    const email=req.query.email;
-    const password=req.query.password;
-    
-    seq='SELECT men_id,mem_pwd from MEMBER WHERE men_id=?'
+  const id = req.query.email;
+  const pwd = req.query.password;
 
-    connection.query(seq,email,function (error, results) {
-      console.log(results[0].men_id)
+  sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=?'
+
+  conn.query(sql, id, function (error, results) {
+    try {
+      if (error === null && results[0] === undefined){
+        console.log("id/pwd틀렸을 때 try문에서 확인")}
+      const user_info = results[0]
+      const user_id = user_info.men_id
+      const user_pwd = user_info.mem_pwd
+
+      console.log(error)
+      console.log(user_id)
+
+      if(pwd===user_pwd){
+          console.log("로그인 성공")
+      }else if(pwd!==user_pwd){
+        console.log("비밀번호만 다름")
+      }
+    } catch (e) {
       
+      return e
+    }
   });
-  
 
-    //console.log();
-    
-  }
-  module.exports=UserInspection
+}
+module.exports = UserInspection
