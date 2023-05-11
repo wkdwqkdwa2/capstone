@@ -30,9 +30,17 @@ function Login(){ // 로그인 기본예제 틀
         const email = data.get('email');
         const password = data.get('password');
             
-        Axios.get(URL, {params:{email,password}}).then((res)=>{
-           
-            console.log(res)
+        Axios.get(URL, {params:{email,password}}).then((res)=>{          
+
+          if(res.data==='success'){
+            console.log("둘다성공")
+          }
+            else if(res.data==='pwdfail'){
+                console.log("비밀번호만 틀림")
+            }
+            else if(res.data==='fail'){
+                console.log("둘다실패")
+            }
         })
         
     }
