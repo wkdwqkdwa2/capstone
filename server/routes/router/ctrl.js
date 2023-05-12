@@ -37,11 +37,12 @@ const UserInspection = async (req, res) => {
 
 }
 const SignUp = async (req, res) => {
-  const id = req.body.id;
-  const pwd = req.query.pwd;
-  const name=req.query.name;
-
   console.log(req.body)
+  const id = req.body.email;
+  const pwd = req.body.password;
+  const name=req.body.name;
+
+  console.log(id)
 
 }
 

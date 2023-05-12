@@ -15,8 +15,10 @@ function SignUp() { //회원가입 미완성
     const password = data.get('password');
     const name = data.get('name');
 
-    Axios.post(URL, {body: JSON.stringify({id:{email}, pwd:{password}, name:{name}})}
-    ).then((res) => {
+    console.log(email)
+
+    Axios.post(URL, {email,password,name})
+    .then((res) => {
       console.log(res)
     })
 
