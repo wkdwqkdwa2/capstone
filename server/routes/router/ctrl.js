@@ -7,7 +7,7 @@ const UserInspection = async (req, res) => {
   sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR mem_pwd=?'
   conn.query(sql, [id, pwd], function (error, results) {
     try {
-      if (error === null&&results===undefined) {
+      if (error===null&&results[0]===undefined) {
         console.log("로그인 실패")
         const ck = 'fail'
         res.json(ck)
@@ -36,4 +36,14 @@ const UserInspection = async (req, res) => {
   });
 
 }
+const SignUp = async (req, res) => {
+  const id = req.body.id;
+  const pwd = req.query.pwd;
+  const name=req.query.name;
+
+  console.log(req.body)
+
+}
+
 module.exports = UserInspection
+module.exports = SignUp
