@@ -9,6 +9,7 @@ import Login from "./component/Login";
 import SignUp from "./component/SignUp";
 import ChatGPT from "./component/ChatGPT";
 import Board from "./component/Board";
+import Forgot from "./component/Forgot";
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/Board" element={<Board />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgot" element={<Forgot/>}/>
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

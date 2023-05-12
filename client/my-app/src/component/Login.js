@@ -15,10 +15,11 @@ import Axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 
+
+
 function Login(){ // 로그인 기본예제 틀
     const URL = 'http://127.0.0.1:3001/login'
-    //const [email, setemail] = React.useState("");
-    //const [password, setpassword] = React.useState("");
+    
    
     const navigate = useNavigate();
 
@@ -31,15 +32,18 @@ function Login(){ // 로그인 기본예제 틀
         const password = data.get('password');
             
         Axios.get(URL, {params:{email,password}}).then((res)=>{          
-
           if(res.data==='success'){
+            navigate("/")
             console.log("둘다성공")
           }
-            else if(res.data==='pwdfail'){
-                console.log("비밀번호만 틀림")
+            else if(res.data==='idfail'){
+                console.log("아이디만 틀림")
             }
-            else if(res.data==='fail'){
-                console.log("둘다실패")
+            else if(res.data==='pwdfail'){
+                console.log("비밀번호 실패")
+            }
+            else if(res.data==="fail"){
+                console.log("로그인 실패")
             }
         })
         
@@ -73,8 +77,7 @@ function Login(){ // 로그인 기본예제 틀
                 fullWidth 
                 name="email"
                 autoComplete="email"
-                autoFocus
-                
+                autoFocus                
             />
         
             <TextField  
@@ -94,10 +97,10 @@ function Login(){ // 로그인 기본예제 틀
 
         <Grid container>
             <Grid item xs>
-                <Link name="forgot">Forgot_password?</Link>
+                <Button onClick={()=>{navigate("/forgot")}}>Forgot password?</Button>
             </Grid>
             <Grid item>
-                <Link name="register">Sign_Up</Link>
+            <Button onClick={()=>{navigate("/signup")}}>SignUp</Button>
             </Grid>
         </Grid>      
     </Container>   
