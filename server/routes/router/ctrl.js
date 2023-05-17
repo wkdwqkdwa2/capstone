@@ -4,7 +4,6 @@ const UserInspection = async (req, res) => {
   const id = req.query.email;
   const pwd = req.query.password;
 
-  //sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR mem_pwd=?'
   sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR  mem_pwd=?'
   conn.query(sql, [id, pwd], function (error, results) {
     try {
@@ -37,17 +36,28 @@ const UserInspection = async (req, res) => {
     }
   });
 
-  const SignUp = async (req, res) => {
-    console.log(req.body)
-    const id = req.body.email;
-    const pwd = req.body.password;
-    const name=req.body.name;
   
-    console.log(id)
   
-  }
-  module.exports = SignUp
+}
+const SignUp = async (req, res) => {
+  const id = req.body.email;
+  const pwd = req.body.password;
+  const name=req.body.name;
+
+  sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR  mem_pwd=?'
+  conn.query(sql, [id, pwd], function (error, results) {
+    res.json(name)
+
+  })
+
+  console.log(req.body)
+
 }
 
 
-module.exports = UserInspection
+module.exports = {
+  UserInspection: UserInspection,
+  SignUp: SignUp,
+};
+//module.exports = SignUp
+//module.exports = UserInspection
