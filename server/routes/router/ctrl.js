@@ -4,10 +4,12 @@ const UserInspection = async (req, res) => {
   const id = req.query.email;
   const pwd = req.query.password;
 
-  sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR mem_pwd=?'
+  //sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR mem_pwd=?'
+  sql = 'SELECT men_id,mem_pwd from MEMBER WHERE men_id=? OR  mem_pwd=?'
   conn.query(sql, [id, pwd], function (error, results) {
     try {
-      if (error===null&&results[0]===undefined) {
+      console.log(results)
+      if (error===null && results[0]===undefined) {
         console.log("로그인 실패")
         const ck = 'fail'
         res.json(ck)
@@ -35,16 +37,17 @@ const UserInspection = async (req, res) => {
     }
   });
 
+  const SignUp = async (req, res) => {
+    console.log(req.body)
+    const id = req.body.email;
+    const pwd = req.body.password;
+    const name=req.body.name;
+  
+    console.log(id)
+  
+  }
+  module.exports = SignUp
 }
-const SignUp = async (req, res) => {
-  console.log(req.body)
-  const id = req.body.email;
-  const pwd = req.body.password;
-  const name=req.body.name;
 
-  console.log(id)
-
-}
 
 module.exports = UserInspection
-module.exports = SignUp
