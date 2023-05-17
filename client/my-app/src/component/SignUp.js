@@ -38,10 +38,13 @@ function SignUp() { //회원가입 미완성
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          borderStyle:'solid',
+          borderColor:'#D4DFE6',
+          borderRadius:'20px'  
         }}
 
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, bgcolor: '#D4DFE6' }}>
           <AccountBoxIcon />
         </Avatar>
 

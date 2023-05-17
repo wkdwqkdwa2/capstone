@@ -5,7 +5,6 @@ import {
     Button,     
     Container,   
     Grid,
-    Link,
     TextField,
     Typography
  } from '@mui/material';
@@ -58,11 +57,12 @@ function Login(){ // 로그인 기본예제 틀
                 marginTop: 15,
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',            
+                alignItems: 'center',
+                       
                 }}
             
         >       
-            <Avatar sx={{ m:1, bgcolor:'secondary.main'}}>
+            <Avatar sx={{ m:1, bgcolor:'#D4DFE6'}}>
                 <LockOutlinedIcon /> 
             </Avatar>
         
@@ -93,16 +93,17 @@ function Login(){ // 로그인 기본예제 틀
             <Button type="submit" fullWidth variant="contained" sx={ {mt:3, mb:2} }>
                 로그인
             </Button>
-        </Box>
-
-        <Grid container>
+            <Grid container>
             <Grid item xs>
                 <Button onClick={()=>{navigate("/forgot")}}>Forgot password?</Button>
             </Grid>
             <Grid item>
             <Button onClick={()=>{navigate("/signup")}}>SignUp</Button>
             </Grid>
-        </Grid>      
+        </Grid>  
+        </Box>
+
+           
     </Container>   
     );
 }
