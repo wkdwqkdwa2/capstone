@@ -8,8 +8,8 @@ import MainPage from "./component/MainPage/MainPage";
 import Login from "./component/Login";
 import SignUp from "./component/SignUp";
 import ChatGPT from "./component/ChatGPT";
-import Board from "./component/Board";
 import Forgot from "./component/Forgot";
+import Manager from "./component/Manager";
 
 const theme = createTheme({
   palette: {
@@ -28,10 +28,10 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/ChatGPT" element={<ChatGPT />} />
-            <Route path="/Board" element={<Board />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/forgot" element={<Forgot/>}/>
+            <Route path="/Manager" element={<Manager/>}/>
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

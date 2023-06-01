@@ -1,198 +1,74 @@
-import * as React from 'react'
-import { useTrail, useChain, useSprings, animated, useSpringRef } from '@react-spring/web'
+import { Container } from "@mui/material";
+import React, {  useState } from "react";
 
-import styles from './styles.module.css'
-import { Container } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import SearchIcon from "@mui/icons-material/Search";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-const COORDS = [
-  // C
-  [5, 40],
-  [10, 40],
-  [15, 40],
-  [5, 45],
-  [5, 50],
-  [5, 55],
-  [5, 60],
-  [10, 60],
-  [15, 60],
-
-  // A
-  [25, 40],
-  [30, 40],
-  [35, 40],
-  [25, 45],
-  [25, 50],
-  [25, 55],
-  [25, 60],
-  [35, 45],
-  [35, 50],
-  [35, 55],
-  [35, 60],
-  [30, 50],
-
-  // P
-  [45, 40],
-  [45, 45],
-  [45, 50],
-  [45, 55],
-  [45, 60],
-  [50, 40],
-  [55, 40],
-  [55, 45],
-  [55, 50],
-  [50, 50],
-
-  // S
-  [75, 40],
-  [70, 40],
-  [65, 40],
-  [65, 45],
-  [65, 50],
-  [70, 50],
-  [75, 50],
-  [75, 55],
-  [75, 60],
-  [70, 60],
-  [65, 60],
-
-  // T
-  [85, 40],
-  [90, 40],
-  [95, 40],
-  [90, 45],
-  [90, 50],
-  [90, 55],
-  [90, 60],
-
-  // O
-  [105, 40],
-  [105, 45],
-  [105, 50],
-  [105, 55],
-  [105, 60],
-  [110, 40],
-  [115, 40],
-  [115, 45],
-  [115, 50],
-  [115, 55],
-  [115, 60],
-  [110, 60],
-
-  // N
-  [125, 40],
-  [125, 45],
-  [125, 50],
-  [125, 55],
-  [125, 60],
-  [130, 45],
-  [135, 50],
-  [140, 40],
-  [140, 45],
-  [140, 50],
-  [140, 55],
-  [140, 60],
-
-  // E
-  [150, 40],
-  [150, 45],
-  [150, 50],
-  [150, 55],
-  [150, 60],
-  [155, 40],
-  [160, 40],
-  [155, 50],
-  [160, 50],
-  [155, 60],
-  [160, 60],
-]
-
-const STROKE_WIDTH = 0.25
-
-const OFFSET = STROKE_WIDTH / 2
-
-const MAX_WIDTH = 170 + OFFSET * 2
-const MAX_HEIGHT = 105 + OFFSET * 2
+import ResultWindow from "./ResultWindow";
+const { kakao } = window;
 
 
 function MainPage() {
-const gridApi = useSpringRef()
+  const [isOpen, setIsOpen] = useState(false)
+  const [state, setState] = useState({
+    // 지도의 초기 위치
+    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+    // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
+    isPanto: true,
+  });
+  const [searchAddress, SetSearchAddress] = useState();
 
-  const gridSprings = useTrail(36, {
-    ref: gridApi,
-    from: {
-      x2: 0,
-      y2: 0,
-    },
-    to: {
-      x2: MAX_WIDTH,
-      y2: MAX_HEIGHT,
-    },
-  })
-
-  const boxApi = useSpringRef()
-
-  const [boxSprings] = useSprings(COORDS.length, i => ({
-    ref: boxApi,
-    from: {
-      scale: 0,
-    },
-    to: {
-      scale: 1,
-    },
-    delay: i * 35,
-    config: {
-      mass: 2,
-      tension: 220,
-    },
-  }))
-
-  useChain([gridApi, boxApi], [0, 1], 1500)
+  // 주소 입력후 검색 클릭 시 원하는 주소로 이동
+  const SearchMap = () => {
+    const ps = new kakao.maps.services.Places()
+    const placesSearchCB = function (data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        const newSearch = data[0]
+        setState({
+          center: { lat: newSearch.y, lng: newSearch.x }
+        })
+      }
+    };
+    ps.keywordSearch(`${searchAddress}`, placesSearchCB);
+  }
+  const handleSearchAddress = (e) => {
+    SetSearchAddress(e.target.value)
+  }
 
   return (
-    <Container maxWidth="xl" className={styles['background-container']} sx={{paddingTop: '100px'}}>
-      <div className={styles.container}>
-        <svg viewBox={`0 0 ${MAX_WIDTH} ${MAX_HEIGHT}`}>
-          <g>
-            {gridSprings.map(({ x2 }, index) => (
-              <animated.line
-                x1={0}
-                y1={index * 5 + OFFSET}
-                x2={x2}
-                y2={index * 5 + OFFSET}
-                key={index}
-                strokeWidth={STROKE_WIDTH}
-                stroke="currentColor"
-              />
-            ))}
-            {gridSprings.map(({ y2 }, index) => (
-              <animated.line
-                x1={index * 5 + OFFSET}
-                y1={0}
-                x2={index * 5 + OFFSET}
-                y2={y2}
-                key={index}
-                strokeWidth={STROKE_WIDTH}
-                stroke="currentColor"
-              />
-            ))}
-          </g>
-          {boxSprings.map(({ scale }, index) => (
-            <animated.rect
-              key={index}
-              width={5}
-              height={5}
-              fill="currentColor"
-              style={{
-                transformOrigin: `${5 + OFFSET * 2}px ${5 + OFFSET * 2}px`,
-                transform: `translate(${COORDS[index][0] + OFFSET}px, ${COORDS[index][1] + OFFSET}px)`,
-                scale,
-              }}
-            />
-          ))}
-        </svg>
+    <Container>
+      <div>
+      <Box
+        component="form"
+      >
+         <TextField  variant="standard" onChange={handleSearchAddress} />
+        <IconButton  sx={{ p: "10px" }}  onClick={SearchMap}>
+          <SearchIcon />
+        </IconButton>
+        </Box>
+
       </div>
+      <Map // 지도를 표시할 Container
+        center={state.center}
+        isPanto={state.isPanto}
+        style={{
+          // 지도의 크기
+          width: "100%",
+          height: "450px",
+        }}
+        level={3} // 지도의 확대 레벨
+      >
+        <MapMarker position={{ lat: state.center.lat , lng: state.center.lng }}
+        onClick={() => setIsOpen(!isOpen)}>          
+        </MapMarker>
+        {isOpen && <ResultWindow/>}
+        
+      </Map>
     </Container>
   )
-
 }
+
 export default MainPage;

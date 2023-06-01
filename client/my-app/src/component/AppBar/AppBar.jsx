@@ -9,8 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const pages = [
   { display: 'HOME', url: '' },
-  { display: 'ChatGPT', url: 'ChatGPT' },
-  { display: 'Board', url: 'Board' }
+  { display: 'Manager', url: 'Manager' }
 ];
 
 function Appbar() {
