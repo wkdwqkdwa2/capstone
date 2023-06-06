@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-import ResultWindow from "./ResultWindow";
+import ResultWindow from "./destination/ResultWindow";
 const { kakao } = window;
 
 
